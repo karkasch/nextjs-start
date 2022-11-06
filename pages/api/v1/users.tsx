@@ -2,13 +2,14 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
-  name: string;
-  xd: number[];
+  id: string;
+  name: string | null;
+  isAuthorized: boolean;
 }
 
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  res.status(200).json({ name: 'John Doe', xd: [1, 2, 3, 544] });
+  res.status(200).json({ id: '0', name: null, isAuthorized: false });
 }
