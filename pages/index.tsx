@@ -3,8 +3,18 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
+import login from './api/v1/login'
 
 const Home: NextPage = () => {
+
+  const login = (e) => {
+    console.log('login', e);
+
+    fetch('/api/v1/login')
+      .then((response) => response.json())
+      .then((data) => console.log(data));;
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,11 +25,13 @@ const Home: NextPage = () => {
 
       <div>
         <Link href='/api/v1/users'>Users API</Link><br />
+        <Link href='/api/v1/login'>Login API</Link><br />
         <Link href='/profile'>Profile page</Link><br />
 
       </div>
 
       <main className={styles.main}>
+        <button onClick={login}>Login</button>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
