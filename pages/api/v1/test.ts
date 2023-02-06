@@ -1,27 +1,22 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import clientPromise from '../../../lib/mongodb'
+import { getUsers, addUser } from '../../../lib/db/users';
 
-interface Xx {
-  id: any;
-  name: string;
-}
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<{ name: string; }>
+  res: NextApiResponse<{ name: string | null; }>
 ) {
+  console.log('REQ', req.query);
 
-  const client = await clientPromise;
+  if (req.query['op'] === 'add') {
+    console.log('Adding...');
+    const result = await addUser('Arik', Date.now());
+    res.status(200).json({ name: result });
+    return;
+  }
 
-  const db = client.db('test1');
+  const users = await getUsers();
 
-  const xx = db.collection('users').find<Xx>({});
-
-  const a = await xx.toArray();
-
-
-  console.log('XX', a);
-
-  res.status(200).json({ name: JSON.stringify(a) });
+  res.status(200).json({ name: JSON.stringify(users) });
 }
